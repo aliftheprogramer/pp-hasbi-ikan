@@ -27,14 +27,6 @@ class MainNavigationContainer extends StatelessWidget {
               onTap: (index) {
                 context.read<NavigationCubit>().updateIndex(index);
               },
-              backgroundColor: Colors.white,
-              selectedItemColor:
-                  Colors.blueAccent, // Placeholder for primary color
-              unselectedItemColor: Colors.grey,
-              type: BottomNavigationBarType.fixed,
-              showSelectedLabels: true,
-              showUnselectedLabels: true,
-              elevation: 0,
               items: const [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home_rounded),
