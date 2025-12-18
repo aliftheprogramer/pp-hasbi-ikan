@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:logger/web.dart';
 import 'package:pui_bhasbi_mobile/common/bloc/auth/auth_cubit.dart';
+import 'package:pui_bhasbi_mobile/common/bloc/nav/nav_cubit.dart';
 import 'package:pui_bhasbi_mobile/core/networks/dio_client.dart';
 import 'package:pui_bhasbi_mobile/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:pui_bhasbi_mobile/features/auth/data/source/auth_api_service.dart';
@@ -36,4 +37,5 @@ Future<void> setUpServiceLocator() async {
   // BLoCs
   sl.registerFactory<AuthBloc>(() => AuthBloc(sl(), sl()));
   sl.registerLazySingleton<AuthStateCubit>(() => AuthStateCubit());
+  sl.registerLazySingleton<NavigationCubit>(() => NavigationCubit());
 }

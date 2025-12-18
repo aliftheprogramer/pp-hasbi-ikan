@@ -6,6 +6,7 @@ import 'package:pui_bhasbi_mobile/common/bloc/nav/nav_cubit.dart';
 import 'package:pui_bhasbi_mobile/common/pages/main_navigation_container.dart';
 import 'package:pui_bhasbi_mobile/common/theme/app_theme.dart';
 import 'package:pui_bhasbi_mobile/core/services/service_locator.dart';
+import 'package:pui_bhasbi_mobile/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:pui_bhasbi_mobile/features/auth/presentation/pages/auth_pages.dart';
 
 void main() async {
@@ -31,7 +32,10 @@ class MyApp extends StatelessWidget {
             if (state is Authenticated) {
               return MainNavigationContainer();
             } else if (state is UnAuthenticated) {
-              return const AuthPages();
+              return BlocProvider(
+                create: (context) => sl<AuthBloc>(),
+                child: const AuthPages(),
+              );
             } else {
               return const Scaffold(
                 body: Center(child: CircularProgressIndicator()),
