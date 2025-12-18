@@ -48,4 +48,22 @@ class AppTheme {
     letterSpacing: 0,
     color: Colors.black,
   );
+
+  static TextStyle get heading1 => const TextStyle(
+    fontFamily:
+        'Visby Round CF', // Ensure this font is added in pubspec.yaml assets
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 1.0,
+    letterSpacing: 0,
+    color: Colors.black, // Default color
+  );
+
+  static TextStyle get bodyText1 => GoogleFonts.roboto(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.0,
+    letterSpacing: 0,
+    color: Colors.black, // Default color
+  );
 }

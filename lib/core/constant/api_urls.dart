@@ -4,4 +4,6 @@ class ApiUrls {
   static const String login = "$baseUrl/auth/login";
   static const String register = "$baseUrl/auth/register";
   static const String fish = "$baseUrl/fish";
+  static const String reports = "$baseUrl/reports";
+  static const String reportsApproved = "$baseUrl/reports/public/approved";
 }

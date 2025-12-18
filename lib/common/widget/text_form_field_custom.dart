@@ -8,6 +8,9 @@ class CustomTextFormField extends StatefulWidget {
   final String? hintText;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
+  final bool? enabled;
+  final int? maxLines;
+  final Function(String)? onChanged;
 
   const CustomTextFormField({
     super.key,
@@ -17,6 +20,9 @@ class CustomTextFormField extends StatefulWidget {
     this.hintText,
     this.keyboardType,
     this.validator,
+    this.enabled,
+    this.maxLines = 1,
+    this.onChanged,
   });
 
   @override
@@ -44,6 +50,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           obscureText: widget.isPassword ? _obscureText : false,
           keyboardType: widget.keyboardType,
           validator: widget.validator,
+          enabled: widget.enabled,
+          maxLines: widget.isPassword ? 1 : widget.maxLines,
+          onChanged: widget.onChanged,
           style: AppTheme.body.copyWith(
             fontWeight: FontWeight.w500,
             fontSize: 16, // Matching the chunky dots look
