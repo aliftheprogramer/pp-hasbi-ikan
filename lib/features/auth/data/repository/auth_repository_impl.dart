@@ -9,6 +9,7 @@ import '../models/login_request.dart';
 import '../models/register_request.dart';
 import '../source/auth_api_service.dart';
 import '../source/auth_local_services.dart';
+import '../models/user_model.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthApiService _apiService;
@@ -31,6 +32,9 @@ class AuthRepositoryImpl implements AuthRepository {
         await _localService.saveToken(response.token!);
         if (response.user?.id != null) {
           await _localService.saveUserId(response.user!.id!);
+        }
+        if (response.user != null) {
+          await _localService.saveUser(UserModel.fromEntity(response.user!));
         }
         return DataSuccess(data: response);
       } else {
@@ -64,6 +68,9 @@ class AuthRepositoryImpl implements AuthRepository {
         await _localService.saveToken(response.token!);
         if (response.user?.id != null) {
           await _localService.saveUserId(response.user!.id!);
+        }
+        if (response.user != null) {
+          await _localService.saveUser(UserModel.fromEntity(response.user!));
         }
         return DataSuccess(data: response);
       } else if (response.success == true) {
