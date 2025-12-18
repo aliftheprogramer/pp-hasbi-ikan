@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pui_bhasbi_mobile/features/home/presentation/pages/home_page.dart';
 import '../bloc/nav/nav_cubit.dart';
 
 class MainNavigationContainer extends StatelessWidget {
@@ -55,7 +56,7 @@ class MainNavigationContainer extends StatelessWidget {
   Widget _buildPage(int index) {
     switch (index) {
       case 0:
-        return const Center(child: Text('Home Page Placeholder'));
+        return const HomePage();
       // TODO: Replace with generic HomePage
       case 1:
         return const Center(child: Text('Activity Page Placeholder'));

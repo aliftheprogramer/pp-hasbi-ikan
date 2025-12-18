@@ -5,7 +5,7 @@ class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
       primarySwatch: Colors.blue,
-      scaffoldBackgroundColor: const Color(0xFFEBF0FD),
+      scaffoldBackgroundColor: const Color(0xFFFFFFFF),
       fontFamily: GoogleFonts.poppins().fontFamily,
       textTheme: GoogleFonts.poppinsTextTheme(),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
@@ -20,24 +20,32 @@ class AppTheme {
     );
   }
 
-  static TextStyle get title => GoogleFonts.roboto(
+  static TextStyle get title => GoogleFonts.poppins(
     fontSize: 20,
     fontWeight: FontWeight.w500,
     height: 1.0,
     letterSpacing: 0,
   );
 
-  static TextStyle get subtitle => GoogleFonts.roboto(
+  static TextStyle get subtitle => GoogleFonts.poppins(
     fontSize: 14,
     fontWeight: FontWeight.w400,
     height: 1.0,
     letterSpacing: 0,
   );
 
-  static TextStyle get body => GoogleFonts.roboto(
+  static TextStyle get body => GoogleFonts.poppins(
     fontSize: 14,
     fontWeight: FontWeight.w400,
     height: 1.0,
     letterSpacing: 0,
+  );
+
+  static TextStyle get appBarTitle => GoogleFonts.poppins(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    height: 1.0,
+    letterSpacing: 0,
+    color: Colors.black,
   );
 }

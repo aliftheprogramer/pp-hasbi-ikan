@@ -10,6 +10,7 @@ import '../models/register_request.dart';
 import '../source/auth_api_service.dart';
 import '../source/auth_local_services.dart';
 import '../models/user_model.dart';
+import '../../domain/entity/user_entity.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthApiService _apiService;
@@ -93,5 +94,16 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<bool> isLoggedIn() async {
     final token = await _localService.getToken();
     return token != null;
+  }
+
+  @override
+  Future<UserEntity?> getUser() async {
+    final userModel = await _localService.getUser();
+    return userModel;
+  }
+
+  @override
+  Future<void> logout() async {
+    await _localService.clearToken();
   }
 }
