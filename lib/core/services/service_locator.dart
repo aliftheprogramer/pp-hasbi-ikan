@@ -11,6 +11,12 @@ import 'package:pui_bhasbi_mobile/features/auth/domain/usecase/is_logged_in_usec
 import 'package:pui_bhasbi_mobile/features/auth/domain/usecase/login_usecase.dart';
 import 'package:pui_bhasbi_mobile/features/auth/domain/usecase/register_usecase.dart';
 import 'package:pui_bhasbi_mobile/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:pui_bhasbi_mobile/features/home/data/repository/fish_repository_impl.dart';
+import 'package:pui_bhasbi_mobile/features/home/data/source/fish_api_service.dart';
+import 'package:pui_bhasbi_mobile/features/home/domain/repository/fish_repository.dart';
+import 'package:pui_bhasbi_mobile/features/home/domain/usecase/get_fish_detail_usecase.dart';
+import 'package:pui_bhasbi_mobile/features/home/domain/usecase/get_fish_list_usecase.dart';
+import 'package:pui_bhasbi_mobile/features/home/presentation/bloc/fish_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
@@ -23,19 +29,26 @@ Future<void> setUpServiceLocator() async {
   // Data Sources
   sl.registerLazySingleton<AuthApiService>(() => AuthApiServiceImpl(sl()));
   sl.registerLazySingleton<AuthLocalService>(() => AuthLocalServiceImpl(sl()));
+  sl.registerLazySingleton<FishApiService>(() => FishApiServiceImpl(sl()));
 
   // Repository
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(sl(), sl()),
   );
+  sl.registerLazySingleton<FishRepository>(() => FishRepositoryImpl(sl()));
 
   // UseCases
   sl.registerLazySingleton<LoginUseCase>(() => LoginUseCase(sl()));
   sl.registerLazySingleton<RegisterUseCase>(() => RegisterUseCase(sl()));
   sl.registerLazySingleton<IsLoggedInUseCase>(() => IsLoggedInUseCase(sl()));
+  sl.registerLazySingleton<GetFishListUseCase>(() => GetFishListUseCase(sl()));
+  sl.registerLazySingleton<GetFishDetailUseCase>(
+    () => GetFishDetailUseCase(sl()),
+  );
 
   // BLoCs
   sl.registerFactory<AuthBloc>(() => AuthBloc(sl(), sl()));
   sl.registerLazySingleton<AuthStateCubit>(() => AuthStateCubit());
   sl.registerLazySingleton<NavigationCubit>(() => NavigationCubit());
+  sl.registerFactory<FishCubit>(() => FishCubit(sl(), sl()));
 }
