@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pui_bhasbi_mobile/features/auth/presentation/pages/profile_page.dart';
 import 'package:pui_bhasbi_mobile/features/home/presentation/pages/home_page.dart';
 import '../bloc/nav/nav_cubit.dart';
 
@@ -31,19 +32,19 @@ class MainNavigationContainer extends StatelessWidget {
               items: const [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home_rounded),
-                  label: 'Home',
+                  label: 'Beranda',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.history_rounded),
-                  label: 'Activity',
+                  icon: Icon(Icons.report),
+                  label: 'Lapor',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.account_balance_wallet_rounded),
-                  label: 'Wallet',
+                  icon: Icon(Icons.book),
+                  label: 'Informasi',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person_rounded),
-                  label: 'Profile',
+                  label: 'Profil',
                 ),
               ],
             ),
@@ -57,16 +58,12 @@ class MainNavigationContainer extends StatelessWidget {
     switch (index) {
       case 0:
         return const HomePage();
-      // TODO: Replace with generic HomePage
       case 1:
-        return const Center(child: Text('Activity Page Placeholder'));
-      // TODO: Replace with generic ActivityPage
+        return const Center(child: Text('Lapor Page Placeholder'));
       case 2:
-        return const Center(child: Text('Wallet Page Placeholder'));
-      // TODO: Replace with generic WalletPage
+        return const Center(child: Text('Informasi Page Placeholder'));
       case 3:
-        return const Center(child: Text('Profile Page Placeholder'));
-      // TODO: Replace with generic ProfilePage
+        return const ProfilePage();
       default:
         return const Center(child: Text('Page Not Found'));
     }

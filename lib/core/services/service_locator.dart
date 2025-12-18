@@ -3,12 +3,16 @@ import 'package:logger/web.dart';
 import 'package:pui_bhasbi_mobile/common/bloc/auth/auth_cubit.dart';
 import 'package:pui_bhasbi_mobile/common/bloc/nav/nav_cubit.dart';
 import 'package:pui_bhasbi_mobile/core/networks/dio_client.dart';
+import 'package:pui_bhasbi_mobile/core/networks/dio_client.dart';
+import 'package:pui_bhasbi_mobile/core/services/location_service.dart';
 import 'package:pui_bhasbi_mobile/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:pui_bhasbi_mobile/features/auth/data/source/auth_api_service.dart';
 import 'package:pui_bhasbi_mobile/features/auth/data/source/auth_local_services.dart';
 import 'package:pui_bhasbi_mobile/features/auth/domain/repository/auth_repository.dart';
+import 'package:pui_bhasbi_mobile/features/auth/domain/usecase/get_local_user_usecase.dart';
 import 'package:pui_bhasbi_mobile/features/auth/domain/usecase/is_logged_in_usecase.dart';
 import 'package:pui_bhasbi_mobile/features/auth/domain/usecase/login_usecase.dart';
+import 'package:pui_bhasbi_mobile/features/auth/domain/usecase/logout_usecase.dart';
 import 'package:pui_bhasbi_mobile/features/auth/domain/usecase/register_usecase.dart';
 import 'package:pui_bhasbi_mobile/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:pui_bhasbi_mobile/features/home/data/repository/fish_repository_impl.dart';
@@ -26,6 +30,7 @@ Future<void> setUpServiceLocator() async {
   sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
   sl.registerLazySingleton<DioClient>(() => DioClient());
   sl.registerLazySingleton<Logger>(() => Logger());
+  sl.registerLazySingleton<LocationService>(() => LocationService());
 
   // Data Sources
   sl.registerLazySingleton<AuthApiService>(() => AuthApiServiceImpl(sl()));
@@ -46,6 +51,10 @@ Future<void> setUpServiceLocator() async {
   sl.registerLazySingleton<GetFishDetailUseCase>(
     () => GetFishDetailUseCase(sl()),
   );
+  sl.registerLazySingleton<GetLocalUserUseCase>(
+    () => GetLocalUserUseCase(sl()),
+  );
+  sl.registerLazySingleton<LogoutUseCase>(() => LogoutUseCase(sl()));
 
   // BLoCs
   sl.registerFactory<AuthBloc>(() => AuthBloc(sl(), sl()));

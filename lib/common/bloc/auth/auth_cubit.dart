@@ -1,8 +1,10 @@
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pui_bhasbi_mobile/common/bloc/auth/auth_state.dart';
 import 'package:pui_bhasbi_mobile/core/services/service_locator.dart';
-import 'package:pui_bhasbi_mobile/features/auth/domain/repository/auth_repository.dart';
+import 'package:pui_bhasbi_mobile/features/auth/domain/usecase/get_local_user_usecase.dart';
 import 'package:pui_bhasbi_mobile/features/auth/domain/usecase/is_logged_in_usecase.dart';
+import 'package:pui_bhasbi_mobile/features/auth/domain/usecase/logout_usecase.dart';
 
 class AuthStateCubit extends Cubit<AuthState> {
   AuthStateCubit() : super(AppInitialState());
@@ -10,17 +12,20 @@ class AuthStateCubit extends Cubit<AuthState> {
   Future<void> appStarted() async {
     final bool isLoggedIn = await sl<IsLoggedInUseCase>().call();
     if (isLoggedIn) {
-      // Direct call to repo for simplicity, strictly should be a UseCase
-      final user = await sl<AuthRepository>().getUser();
+      final user = await sl<GetLocalUserUseCase>().call();
       if (user != null) {
         emit(Authenticated(user));
       } else {
-        // Token exists but User data missing (migration issue) -> Logout to force re-login
-        await sl<AuthRepository>().logout();
+        await sl<LogoutUseCase>().call();
         emit(UnAuthenticated());
       }
     } else {
       emit(UnAuthenticated());
     }
+  }
+
+  Future<void> logout() async {
+    await sl<LogoutUseCase>().call();
+    emit(UnAuthenticated());
   }
 }
