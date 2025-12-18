@@ -17,6 +17,7 @@ import 'package:pui_bhasbi_mobile/features/home/domain/repository/fish_repositor
 import 'package:pui_bhasbi_mobile/features/home/domain/usecase/get_fish_detail_usecase.dart';
 import 'package:pui_bhasbi_mobile/features/home/domain/usecase/get_fish_list_usecase.dart';
 import 'package:pui_bhasbi_mobile/features/home/presentation/bloc/fish_cubit.dart';
+import 'package:pui_bhasbi_mobile/features/home/presentation/bloc/fish_detail_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
@@ -51,4 +52,5 @@ Future<void> setUpServiceLocator() async {
   sl.registerLazySingleton<AuthStateCubit>(() => AuthStateCubit());
   sl.registerLazySingleton<NavigationCubit>(() => NavigationCubit());
   sl.registerFactory<FishCubit>(() => FishCubit(sl(), sl()));
+  sl.registerFactory<FishDetailCubit>(() => FishDetailCubit(sl()));
 }
