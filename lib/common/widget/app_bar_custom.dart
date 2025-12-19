@@ -5,7 +5,9 @@ import 'package:pui_bhasbi_mobile/common/bloc/auth/auth_state.dart';
 import 'package:pui_bhasbi_mobile/common/theme/app_theme.dart';
 
 class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarCustom({super.key});
+  final String? title; // NEW
+
+  const AppBarCustom({super.key, this.title}); // NEW
 
   @override
   Widget build(BuildContext context) {
@@ -46,31 +48,35 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
           },
         ),
       ),
-      title: BlocBuilder<AuthStateCubit, AuthState>(
-        builder: (context, state) {
-          if (state is Authenticated) {
-            final user = state.user;
-            return Column(
-              mainAxisSize: MainAxisSize.min, // Shrink to fit children
-              children: [
-                Text(
-                  "Selamat Datang",
-                  style: AppTheme.subtitle.copyWith(
-                    color: Colors.grey.shade600,
-                    fontSize: 12,
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  user.name?.split(' ').first ?? 'User',
-                  style: AppTheme.appBarTitle,
-                ),
-              ],
-            );
-          }
-          return const SizedBox();
-        },
-      ),
+      title:
+          title !=
+              null // NEW LOGIC
+          ? Text(title!, style: AppTheme.appBarTitle)
+          : BlocBuilder<AuthStateCubit, AuthState>(
+              builder: (context, state) {
+                if (state is Authenticated) {
+                  final user = state.user;
+                  return Column(
+                    mainAxisSize: MainAxisSize.min, // Shrink to fit children
+                    children: [
+                      Text(
+                        "Selamat Datang",
+                        style: AppTheme.subtitle.copyWith(
+                          color: Colors.grey.shade600,
+                          fontSize: 12,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        user.name?.split(' ').first ?? 'User',
+                        style: AppTheme.appBarTitle,
+                      ),
+                    ],
+                  );
+                }
+                return const SizedBox();
+              },
+            ),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 24.0),

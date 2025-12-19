@@ -21,6 +21,7 @@ import 'package:pui_bhasbi_mobile/features/home/domain/usecase/get_fish_detail_u
 import 'package:pui_bhasbi_mobile/features/home/domain/usecase/get_fish_list_usecase.dart';
 import 'package:pui_bhasbi_mobile/features/home/presentation/bloc/fish_cubit.dart';
 import 'package:pui_bhasbi_mobile/features/home/presentation/bloc/fish_detail_cubit.dart';
+import 'package:pui_bhasbi_mobile/features/report/presentation/bloc/approved_reports_cubit.dart'; // NEW
 import 'package:pui_bhasbi_mobile/features/report/data/repository/report_repository_impl.dart';
 import 'package:pui_bhasbi_mobile/features/report/data/source/report_api_service.dart';
 import 'package:pui_bhasbi_mobile/features/report/domain/repository/report_repository.dart';
@@ -78,4 +79,5 @@ Future<void> setUpServiceLocator() async {
     () => SubmitReportUseCase(sl()),
   );
   sl.registerFactory<ReportCubit>(() => ReportCubit(sl(), sl()));
+  sl.registerFactory<ApprovedReportsCubit>(() => ApprovedReportsCubit(sl()));
 }

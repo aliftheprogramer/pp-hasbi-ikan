@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pui_bhasbi_mobile/features/auth/presentation/pages/profile_page.dart';
 import 'package:pui_bhasbi_mobile/features/home/presentation/pages/home_page.dart';
+import 'package:pui_bhasbi_mobile/features/report/presentation/pages/information_pages.dart';
 import 'package:pui_bhasbi_mobile/features/report/presentation/pages/report_page.dart';
 import '../bloc/nav/nav_cubit.dart';
 
@@ -62,7 +63,7 @@ class MainNavigationContainer extends StatelessWidget {
       case 1:
         return const ReportPage();
       case 2:
-        return const Center(child: Text('Informasi Page Placeholder'));
+        return const InformationPage();
       case 3:
         return const ProfilePage();
       default:

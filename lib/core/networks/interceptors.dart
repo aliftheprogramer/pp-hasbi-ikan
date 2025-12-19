@@ -65,6 +65,7 @@ class LoggerInterceptor extends Interceptor {
       fullPath = '$requestPath?$qp';
     }
     logger.i('${options.method} request ==> $fullPath');
+    logger.d('Headers: ${options.headers}'); // Log headers to check token
     return super.onRequest(options, handler);
   }
 
