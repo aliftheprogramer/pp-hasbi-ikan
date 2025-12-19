@@ -9,6 +9,7 @@ class CustomTextFormField extends StatefulWidget {
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
   final bool? enabled;
+  final bool readOnly; // NEW
   final int? maxLines;
   final Function(String)? onChanged;
 
@@ -21,6 +22,7 @@ class CustomTextFormField extends StatefulWidget {
     this.keyboardType,
     this.validator,
     this.enabled,
+    this.readOnly = false, // Default false
     this.maxLines = 1,
     this.onChanged,
   });
@@ -51,6 +53,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           keyboardType: widget.keyboardType,
           validator: widget.validator,
           enabled: widget.enabled,
+          readOnly: widget.readOnly, // Pass readOnly
           maxLines: widget.isPassword ? 1 : widget.maxLines,
           onChanged: widget.onChanged,
           style: AppTheme.body.copyWith(
@@ -60,6 +63,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           ),
           decoration: InputDecoration(
             hintText: widget.hintText,
+            hintStyle: const TextStyle(color: Colors.grey),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 14,
@@ -70,7 +74,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.blue.shade400),
+              // Use blue border if readOnly (to look "filled") or normally enabled
+              borderSide: BorderSide(
+                color: widget.readOnly
+                    ? Colors.blue.shade400
+                    : Colors.blue.shade400,
+              ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),

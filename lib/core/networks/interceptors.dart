@@ -40,7 +40,9 @@ class LoggerInterceptor extends Interceptor {
 
     // 2. Cek apakah token ada. Support both 'token' and 'access_token' keys for compatibility.
     String? token;
-    if (sharedPreferences.containsKey('token')) {
+    if (sharedPreferences.containsKey('auth_token')) {
+      token = sharedPreferences.getString('auth_token');
+    } else if (sharedPreferences.containsKey('token')) {
       token = sharedPreferences.getString('token');
     } else if (sharedPreferences.containsKey('access_token')) {
       token = sharedPreferences.getString('access_token');

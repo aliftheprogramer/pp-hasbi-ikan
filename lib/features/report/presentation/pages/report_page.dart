@@ -122,22 +122,58 @@ class _ReportPageState extends State<ReportPage> {
                   ),
                 ),
 
-                // Button "Laporkan" (Visible when form is hidden)
-                if (!_showForm)
-                  Positioned(
-                    bottom: 24,
-                    left: 24,
-                    right: 24,
-                    child: CustomButton(
-                      text: "Laporkan",
-                      onPressed: _toggleForm,
+                // Layer 2: UI Overlay (Button & Address Box) - Fades out when form is shown
+                Positioned.fill(
+                  child: IgnorePointer(
+                    ignoring: _showForm,
+                    child: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 300),
+                      opacity: _showForm ? 0.0 : 1.0,
+                      child: Stack(
+                        children: [
+                          // Address Overlay
+                          Positioned(
+                            top: 60,
+                            left: 16,
+                            right: 16,
+                            child: Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                _selectedLocation != null
+                                    ? "${_currentAddress ?? 'Mencari alamat...'}\n(${_selectedLocation!.latitude.toStringAsFixed(5)}, ${_selectedLocation!.longitude.toStringAsFixed(5)})"
+                                    : "Mencari lokasi kamu...",
+                                style: const TextStyle(color: Colors.white),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          // Button "Laporkan"
+                          Positioned(
+                            bottom: 24,
+                            left: 24,
+                            right: 24,
+                            child: CustomButton(
+                              text: "Laporkan",
+                              onPressed: _toggleForm,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
+                ),
 
-                // Layer 2: Form (Slide up or Bottom Sheet)
-                if (_showForm)
-                  Align(
-                    alignment: Alignment.bottomCenter,
+                // Layer 3: Form (Slide up)
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: AnimatedSlide(
+                    offset: _showForm ? Offset.zero : const Offset(0, 1),
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
                         maxHeight: MediaQuery.of(context).size.height * 0.75,
@@ -148,36 +184,13 @@ class _ReportPageState extends State<ReportPage> {
                               address: _currentAddress,
                               isLoading: state is ReportLoading,
                               onFormChanged: _onFormChanged,
-                              onCancel: _toggleForm, // NEW
+                              onCancel: _toggleForm,
                               onSubmit: () => _submitReport(context),
                             )
-                          : const SizedBox.shrink(), // Should not happen due to if (_showForm) logic but safe
+                          : const SizedBox.shrink(),
                     ),
                   ),
-
-                // Address Overlay Top (Like Image 1) - Only when form hidden?
-                // Or always visible? Image 1 has it. Image 2 has it inside form.
-                // Assuming Image 1 is "Detect Mode".
-                if (!_showForm)
-                  Positioned(
-                    top: 60,
-                    left: 16,
-                    right: 16,
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        _selectedLocation != null
-                            ? "${_currentAddress ?? 'Mencari alamat...'}\n(${_selectedLocation!.latitude.toStringAsFixed(5)}, ${_selectedLocation!.longitude.toStringAsFixed(5)})"
-                            : "Mencari lokasi kamu...",
-                        style: const TextStyle(color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
+                ),
               ],
             );
           },

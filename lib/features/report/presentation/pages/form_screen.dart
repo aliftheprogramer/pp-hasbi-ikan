@@ -116,14 +116,14 @@ class _FormScreenState extends State<FormScreen> {
               CustomTextFormField(
                 controller: _addressController,
                 label: "Alamat Laporan",
-                enabled: false,
+                readOnly: true,
                 maxLines: 2,
               ),
               const SizedBox(height: 16),
               CustomTextFormField(
                 controller: _coordController,
                 label: "Koordinat",
-                enabled: false,
+                readOnly: true,
               ),
               const SizedBox(height: 16),
               CustomTextFormField(
