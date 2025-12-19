@@ -103,6 +103,24 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<DataState<UserEntity>> getProfile() async {
+    try {
+      final userModel = await _apiService.getProfile();
+      await _localService.saveUser(userModel);
+      return DataSuccess(data: userModel);
+    } on DioException catch (e) {
+      return DataFailed(e);
+    } catch (e) {
+      return DataFailed(
+        DioException(
+          requestOptions: RequestOptions(path: ''),
+          error: e.toString(),
+        ),
+      );
+    }
+  }
+
+  @override
   Future<void> logout() async {
     await _localService.clearToken();
   }

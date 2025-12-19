@@ -9,6 +9,7 @@ import 'package:pui_bhasbi_mobile/features/auth/data/source/auth_api_service.dar
 import 'package:pui_bhasbi_mobile/features/auth/data/source/auth_local_services.dart';
 import 'package:pui_bhasbi_mobile/features/auth/domain/repository/auth_repository.dart';
 import 'package:pui_bhasbi_mobile/features/auth/domain/usecase/get_local_user_usecase.dart';
+import 'package:pui_bhasbi_mobile/features/auth/domain/usecase/get_profile_usecase.dart'; // NEW
 import 'package:pui_bhasbi_mobile/features/auth/domain/usecase/is_logged_in_usecase.dart';
 import 'package:pui_bhasbi_mobile/features/auth/domain/usecase/login_usecase.dart';
 import 'package:pui_bhasbi_mobile/features/auth/domain/usecase/logout_usecase.dart';
@@ -22,10 +23,12 @@ import 'package:pui_bhasbi_mobile/features/home/domain/usecase/get_fish_list_use
 import 'package:pui_bhasbi_mobile/features/home/presentation/bloc/fish_cubit.dart';
 import 'package:pui_bhasbi_mobile/features/home/presentation/bloc/fish_detail_cubit.dart';
 import 'package:pui_bhasbi_mobile/features/report/presentation/bloc/approved_reports_cubit.dart'; // NEW
+import 'package:pui_bhasbi_mobile/features/report/presentation/bloc/my_reports_cubit.dart'; // NEW
 import 'package:pui_bhasbi_mobile/features/report/data/repository/report_repository_impl.dart';
 import 'package:pui_bhasbi_mobile/features/report/data/source/report_api_service.dart';
 import 'package:pui_bhasbi_mobile/features/report/domain/repository/report_repository.dart';
 import 'package:pui_bhasbi_mobile/features/report/domain/usecase/get_approved_reports_usecase.dart';
+import 'package:pui_bhasbi_mobile/features/report/domain/usecase/get_my_reports_usecase.dart'; // NEW
 import 'package:pui_bhasbi_mobile/features/report/domain/usecase/submit_report_usecase.dart';
 import 'package:pui_bhasbi_mobile/features/report/presentation/bloc/report_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -60,6 +63,7 @@ Future<void> setUpServiceLocator() async {
   sl.registerLazySingleton<GetLocalUserUseCase>(
     () => GetLocalUserUseCase(sl()),
   );
+  sl.registerLazySingleton<GetProfileUseCase>(() => GetProfileUseCase(sl()));
   sl.registerLazySingleton<LogoutUseCase>(() => LogoutUseCase(sl()));
 
   // BLoCs
@@ -78,6 +82,10 @@ Future<void> setUpServiceLocator() async {
   sl.registerLazySingleton<SubmitReportUseCase>(
     () => SubmitReportUseCase(sl()),
   );
+  sl.registerLazySingleton<GetMyReportsUseCase>(
+    () => GetMyReportsUseCase(sl()),
+  );
   sl.registerFactory<ReportCubit>(() => ReportCubit(sl(), sl()));
   sl.registerFactory<ApprovedReportsCubit>(() => ApprovedReportsCubit(sl()));
+  sl.registerFactory<MyReportsCubit>(() => MyReportsCubit(sl()));
 }

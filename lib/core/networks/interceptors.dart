@@ -20,14 +20,17 @@ class LoggerInterceptor extends Interceptor {
       'Error message: ${err.message}'
       'SERVER RESPONSE: ${err.response?.data}',
     ); //Debug log
-    handler.next(err); //Continue with the Error
-    if (err.response?.statusCode == 401) {
-      logger.w('Unauthorized request detected. Redirecting to login.');
-      sl<AuthStateCubit>()
-          .appStarted(); // Trigger appStarted to check login state
+    
+    // Check for 401 or 403 status codes (Unauthorized/Forbidden)
+    if (err.response?.statusCode == 401 || err.response?.statusCode == 403) {
+      logger.w('Unauthorized/Forbidden request detected (${err.response?.statusCode}). Logging out user.');
+      // Logout the user and redirect to login page
+      sl<AuthStateCubit>().logout();
     } else {
       logger.w('An error occurred: ${err.message}');
     }
+    
+    handler.next(err); //Continue with the Error
   }
 
   @override

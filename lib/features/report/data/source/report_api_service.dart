@@ -6,6 +6,7 @@ import '../models/report_model.dart';
 
 abstract class ReportApiService {
   Future<List<ReportModel>> getApprovedReports();
+  Future<List<ReportModel>> getMyReports();
   Future<ReportModel> submitReport(ReportRequestEntity request);
 }
 
@@ -18,6 +19,20 @@ class ReportApiServiceImpl implements ReportApiService {
   Future<List<ReportModel>> getApprovedReports() async {
     try {
       final response = await _dioClient.get(ApiUrls.reportsApproved);
+      if (response.data['success'] == true && response.data['data'] != null) {
+        final List data = response.data['data'];
+        return data.map((e) => ReportModel.fromJson(e)).toList();
+      }
+      return [];
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<ReportModel>> getMyReports() async {
+    try {
+      final response = await _dioClient.get(ApiUrls.myReports);
       if (response.data['success'] == true && response.data['data'] != null) {
         final List data = response.data['data'];
         return data.map((e) => ReportModel.fromJson(e)).toList();

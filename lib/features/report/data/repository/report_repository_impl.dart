@@ -21,6 +21,16 @@ class ReportRepositoryImpl implements ReportRepository {
   }
 
   @override
+  Future<DataState<List<ReportEntity>>> getMyReports() async {
+    try {
+      final result = await _apiService.getMyReports();
+      return DataSuccess(data: result);
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
+
+  @override
   Future<DataState<ReportEntity>> submitReport(
     ReportRequestEntity request,
   ) async {

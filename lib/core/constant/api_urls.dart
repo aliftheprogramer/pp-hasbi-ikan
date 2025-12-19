@@ -6,4 +6,6 @@ class ApiUrls {
   static const String fish = "$baseUrl/fish";
   static const String reports = "$baseUrl/reports";
   static const String reportsApproved = "$baseUrl/reports/public/approved";
+  static const String profile = "$baseUrl/users/profile";
+  static const String myReports = "$baseUrl/reports/my-reports";
 }
