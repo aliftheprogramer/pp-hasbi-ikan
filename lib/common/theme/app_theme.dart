@@ -20,6 +20,8 @@ class AppTheme {
     );
   }
 
+  static Color get primaryColor => Colors.blue;
+
   static TextStyle get title => GoogleFonts.poppins(
     fontSize: 20,
     fontWeight: FontWeight.w500,

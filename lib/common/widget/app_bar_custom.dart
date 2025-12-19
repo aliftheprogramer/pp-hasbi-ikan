@@ -5,9 +5,10 @@ import 'package:pui_bhasbi_mobile/common/bloc/auth/auth_state.dart';
 import 'package:pui_bhasbi_mobile/common/theme/app_theme.dart';
 
 class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
-  final String? title; // NEW
+  final String? title;
+  final List<Widget>? actions; // NEW
 
-  const AppBarCustom({super.key, this.title}); // NEW
+  const AppBarCustom({super.key, this.title, this.actions});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.transparent,
       elevation: 0,
       centerTitle: true,
-      leadingWidth: 70, // Adjust width to fit avatar with padding
+      leadingWidth: 70,
       leading: Padding(
         padding: const EdgeInsets.only(left: 24.0),
         child: BlocBuilder<AuthStateCubit, AuthState>(
@@ -78,6 +79,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
               },
             ),
       actions: [
+        if (actions != null) ...actions!,
         Padding(
           padding: const EdgeInsets.only(right: 24.0),
           child: Stack(

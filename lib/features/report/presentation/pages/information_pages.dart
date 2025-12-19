@@ -7,15 +7,45 @@ import '../bloc/approved_reports_cubit.dart';
 import '../bloc/approved_reports_state.dart';
 import 'report_detail_page.dart';
 
-class InformationPage extends StatelessWidget {
+import 'information_map_view.dart';
+
+class InformationPage extends StatefulWidget {
   const InformationPage({super.key});
+
+  @override
+  State<InformationPage> createState() => _InformationPageState();
+}
+
+class _InformationPageState extends State<InformationPage> {
+  bool _isMapView = false;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<ApprovedReportsCubit>()..getApprovedReports(),
       child: Scaffold(
-        appBar: const AppBarCustom(title: "Informasi"),
+        appBar: AppBarCustom(
+          title: "Informasi",
+          actions: [
+            // Toggle Button
+            BlocBuilder<ApprovedReportsCubit, ApprovedReportsState>(
+              builder: (context, state) {
+                if (state is ApprovedReportsSuccess &&
+                    state.reports.isNotEmpty) {
+                  return IconButton(
+                    icon: Icon(_isMapView ? Icons.list : Icons.map),
+                    onPressed: () {
+                      setState(() {
+                        _isMapView = !_isMapView;
+                      });
+                    },
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+          ],
+        ),
         body: BlocBuilder<ApprovedReportsCubit, ApprovedReportsState>(
           builder: (context, state) {
             if (state is ApprovedReportsLoading) {
@@ -26,6 +56,11 @@ class InformationPage extends StatelessWidget {
               if (state.reports.isEmpty) {
                 return const Center(child: Text("Belum ada laporan"));
               }
+
+              if (_isMapView) {
+                return InformationMapView(reports: state.reports);
+              }
+
               return ListView.builder(
                 padding: const EdgeInsets.all(16),
                 itemCount: state.reports.length,

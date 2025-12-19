@@ -60,12 +60,15 @@ class FishReferenceModel extends FishReferenceEntity {
   });
 
   factory FishReferenceModel.fromJson(Map<String, dynamic> json) {
+    // Check if we have a nested _doc object
+    final data = json['_doc'] is Map<String, dynamic> ? json['_doc'] : json;
+
     return FishReferenceModel(
-      id: json['id'],
-      name: json['name'],
-      scientificName: json['scientificName'],
-      imageUrl: json['imageUrl'],
-      dangerLevel: json['dangerLevel'],
+      id: data['_id'] ?? data['id'],
+      name: data['name'],
+      scientificName: data['scientificName'],
+      imageUrl: data['imageUrl'] ?? data['image_url'],
+      dangerLevel: data['dangerLevel'],
     );
   }
 }
@@ -74,10 +77,13 @@ class UserReferenceModel extends UserReferenceEntity {
   const UserReferenceModel({super.id, super.name, super.avatarUrl});
 
   factory UserReferenceModel.fromJson(Map<String, dynamic> json) {
+    // Check if we have a nested _doc object
+    final data = json['_doc'] is Map<String, dynamic> ? json['_doc'] : json;
+
     return UserReferenceModel(
-      id: json['id'],
-      name: json['name'],
-      avatarUrl: json['avatarUrl'],
+      id: data['_id'] ?? data['id'],
+      name: data['name'],
+      avatarUrl: data['avatarUrl'] ?? data['avatar_url'],
     );
   }
 }

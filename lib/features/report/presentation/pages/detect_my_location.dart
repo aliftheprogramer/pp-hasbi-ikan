@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:pui_bhasbi_mobile/core/services/location_service.dart';
+import '../../../../common/theme/app_theme.dart';
 import '../../../../core/services/service_locator.dart';
 
 import 'dart:developer' as developer;
@@ -104,8 +105,9 @@ class _DetectMyLocationState extends State<DetectMyLocation> {
           right: 20,
           child: FloatingActionButton(
             heroTag: "locate_me_btn",
+            backgroundColor: AppTheme.primaryColor,
             onPressed: _locateUser,
-            child: const Icon(Icons.my_location),
+            child: const Icon(Icons.my_location, color: Colors.white),
           ),
         ),
       ],
