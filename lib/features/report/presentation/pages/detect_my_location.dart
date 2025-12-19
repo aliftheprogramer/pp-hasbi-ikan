@@ -4,6 +4,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:pui_bhasbi_mobile/core/services/location_service.dart';
 import '../../../../core/services/service_locator.dart';
 
+import 'dart:developer' as developer;
+
 class DetectMyLocation extends StatefulWidget {
   final Function(LatLng) onLocationChanged;
 
@@ -25,6 +27,7 @@ class _DetectMyLocationState extends State<DetectMyLocation> {
 
   Future<void> _locateUser() async {
     final position = await sl<LocationService>().getCurrentPosition();
+    if (!mounted) return;
     if (position != null) {
       final latLng = LatLng(position.latitude, position.longitude);
       setState(() {
@@ -55,6 +58,25 @@ class _DetectMyLocationState extends State<DetectMyLocation> {
             initialZoom: 15.0,
             onPositionChanged: _onPositionChanged,
             onTap: (tapPosition, point) {
+              // LOGGING START
+              developer.log(
+                'Map Tapped',
+                name: 'DetectMyLocation',
+                error: {
+                  'latitude': point.latitude,
+                  'longitude': point.longitude,
+                  'globalPosition': '${tapPosition.global}',
+                  'relativePosition': '${tapPosition.relative}',
+                },
+              );
+              print('================ MAP TAP INFO ================');
+              print('Latitude: ${point.latitude}');
+              print('Longitude: ${point.longitude}');
+              print('Screen Position (Global): ${tapPosition.global}');
+              print('Screen Position (Relative): ${tapPosition.relative}');
+              print('==============================================');
+              // LOGGING END
+
               _mapController.move(point, _mapController.camera.zoom);
               setState(() {
                 _currentCenter = point;

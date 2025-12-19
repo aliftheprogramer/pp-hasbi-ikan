@@ -1,4 +1,5 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 class LocationService {
   Future<Position?> getCurrentPosition() async {
@@ -35,5 +36,37 @@ class LocationService {
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
     return await Geolocator.getCurrentPosition();
+  }
+
+  Future<String?> getAddressFromLatLng(double lat, double lng) async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks[0];
+        // Format: Street, SubLocality, Locality, SubAdminArea, AdminArea
+        List<String> validParts = [];
+        if (place.street != null && place.street!.isNotEmpty) {
+          validParts.add(place.street!);
+        }
+        if (place.subLocality != null && place.subLocality!.isNotEmpty) {
+          validParts.add(place.subLocality!);
+        }
+        if (place.locality != null && place.locality!.isNotEmpty) {
+          validParts.add(place.locality!);
+        }
+        if (place.subAdministrativeArea != null &&
+            place.subAdministrativeArea!.isNotEmpty) {
+          validParts.add(place.subAdministrativeArea!);
+        }
+        if (place.administrativeArea != null &&
+            place.administrativeArea!.isNotEmpty) {
+          validParts.add(place.administrativeArea!);
+        }
+        return validParts.join(', ');
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
   }
 }
