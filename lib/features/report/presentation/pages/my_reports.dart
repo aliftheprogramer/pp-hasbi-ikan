@@ -33,9 +33,10 @@ class MyReportsPage extends StatelessWidget {
                   return Card(
                     color: Colors.white,
                     margin: const EdgeInsets.only(bottom: 16),
-                    elevation: 1.5,
+                    elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(color: Colors.grey.shade300),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
