@@ -11,7 +11,8 @@ import 'package:pui_bhasbi_mobile/features/auth/presentation/bloc/auth_state.dar
     as bloc;
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+  final VoidCallback? onRegisterSuccess;
+  const RegisterScreen({super.key, this.onRegisterSuccess});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -70,6 +71,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         if (state is bloc.AuthSuccess) {
           // Trigger global auth refresh to navigate to Home
           context.read<AuthStateCubit>().appStarted();
+        } else if (state is bloc.AuthRegisterSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Registrasi berhasil, silakan login")),
+          );
+          if (widget.onRegisterSuccess != null) {
+            widget.onRegisterSuccess!();
+          }
         } else if (state is bloc.AuthFailure) {
           ScaffoldMessenger.of(
             context,

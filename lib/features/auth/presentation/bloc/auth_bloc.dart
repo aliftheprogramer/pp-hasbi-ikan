@@ -22,7 +22,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (result.data!.user != null) {
         emit(AuthSuccess(result.data!.user!));
       } else {
-
         emit(const AuthFailure("Login successful but no user data returned"));
       }
     } else if (result is DataFailed) {
@@ -39,13 +38,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (result is DataSuccess && result.data != null) {
       // Registration might return user or just success
       if (result.data!.user != null) {
-        emit(AuthSuccess(result.data!.user!));
+        emit(const AuthRegisterSuccess());
       } else {
-        emit(
-          const AuthFailure(
-            "Registration successful but no user data returned",
-          ),
-        );
+        emit(const AuthRegisterSuccess());
       }
     } else if (result is DataFailed) {
       emit(AuthFailure(result.error?.message ?? "Registration Failed"));

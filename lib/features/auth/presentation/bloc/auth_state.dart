@@ -24,3 +24,7 @@ class AuthSuccess extends AuthState {
 class AuthFailure extends AuthState {
   const AuthFailure(String message) : super(message: message);
 }
+
+class AuthRegisterSuccess extends AuthState {
+  const AuthRegisterSuccess();
+}

@@ -25,7 +25,13 @@ class _AuthPagesState extends State<AuthPages> {
               child: SingleChildScrollView(
                 child: _showLogin
                     ? const LoginScreen()
-                    : const RegisterScreen(),
+                    : RegisterScreen(
+                        onRegisterSuccess: () {
+                          setState(() {
+                            _showLogin = true;
+                          });
+                        },
+                      ),
               ),
             ),
             Padding(
