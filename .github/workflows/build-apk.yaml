@@ -1,0 +1,50 @@
+name: Build Android APK
+
+# Trigger: Jalan setiap kali ada push ke branch main
+on:
+  push:
+    branches: [ "main" ]
+  # Opsional: Biar bisa dijalankan manual lewat tab Actions
+  workflow_dispatch:
+
+jobs:
+  build:
+    # Kita pinjam komputer Ubuntu punya GitHub
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Ambil codingan dari repo kamu
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Siapkan Java (Wajib buat Android Build)
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      # 3. Siapkan Flutter (Otomatis download SDK)
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.1' # Sesuaikan versi Flutter di laptopmu
+          channel: 'stable'
+          cache: true # Biar run berikutnya lebih ngebut
+
+      # 4. Download library (pub get)
+      - name: Install Dependencies
+        run: flutter pub get
+
+      # 5. Build APK (The Main Event)
+        # --no-tree-shake-icons kadang perlu buat ngatasin error font
+      - name: Build APK
+        run: flutter build apk --release --no-tree-shake-icons
+
+      # 6. Upload Hasil (Artifact)
+      # Ini PENTING! Kalau gak ada ini, APK-nya jadi tapi langsung dihapus sama GitHub
+      - name: Upload APK to GitHub
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
