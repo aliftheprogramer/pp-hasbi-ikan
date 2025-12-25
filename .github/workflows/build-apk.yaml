@@ -11,39 +11,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Ambil codingan dari repo
+      # 1. Ambil codingan
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Setup Java (Wajib untuk build Android/Gradle)
+      # 2. Setup Java 17 (Wajib untuk Gradle 8.0+ yang dipakai Flutter baru)
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '17' # Java 17 standar untuk Gradle terbaru, jika gagal coba ubah ke '11'
+          java-version: '17'
 
-      # 3. Setup Flutter Environment
+      # 3. Setup Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          cache: true # Biar build selanjutnya lebih cepat
+          cache: true
 
       # 4. Install Dependencies
       - name: Get Dependencies
         run: flutter pub get
 
-      # 5. FIX UMUM: Kasih izin execute ke gradlew (Seringkali ini penyebab errornya!)
+      # [DEBUG] Cek apakah file gradlew terdeteksi oleh GitHub
+      - name: Check Android Directory Contents
+        run: ls -la android/
+
+      # 5. Beri izin eksekusi (Ini yang error sebelumnya)
       - name: Grant execute permission for gradlew
         run: chmod +x android/gradlew
 
-      # 6. Build APK (Release version)
-      # --release: membuat versi release (lebih ringan & cepat)
-      # --no-tree-shake-icons: opsional, kadang mencegah error icon
+      # 6. Build APK
       - name: Build APK
         run: flutter build apk --release
 
-      # 7. Upload APK ke Artifacts (Supaya bisa didownload setelah selesai)
+      # 7. Upload Hasil Build
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
